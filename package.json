@@ -1,6 +1,6 @@
 {
   "name": "discord-botkit",
-  "version": "1.0.0",
+  "version": "0.0.2",
   "description": "My framework for Discord.JS bots, abstracting over Commando",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -11,6 +11,9 @@
     "build": "tsc -p .",
     "watch": "yarn build --watch"
   },
+  "files": [
+    "dist/**/*"
+  ],
   "devDependencies": {
     "@types/common-tags": "^1.8.0",
     "@types/debug": "^4.1.5",
