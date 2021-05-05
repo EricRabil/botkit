@@ -44,9 +44,11 @@ export class DiscordController {
         await this.client.login(this.#token);
         await this.client.setProvider(PostgresSettingsProvider.shared);
 
-        this.loadPlugin(this.entitlements);
-        this.loadPlugin(new DefaultsManager());
-        this.loadPlugin(new DeleteReply());
+        await Promise.all([
+            this.loadPlugin(this.entitlements),
+            this.loadPlugin(new DefaultsManager()),
+            this.loadPlugin(new DeleteReply())
+        ]);
     }
 
     public async loadPlugin(plugin: any) {
