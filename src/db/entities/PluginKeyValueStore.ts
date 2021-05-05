@@ -13,7 +13,7 @@ export class PluginKeyValueStore extends BaseEntity {
     @Column("json", { default: "{}" })
     value: any;
 
-    public static async get(plugin: string, key: string): Promise<any> {
+    public static async get<T = any>(plugin: string, key: string): Promise<T> {
         const cached = await RedisConnection.client?.get(`${plugin}:${key}`);
         if (cached === null || cached === undefined) {
             const resolved = await this.findOne({ plugin, key });
