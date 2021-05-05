@@ -12,7 +12,7 @@ BotKit is very much decorator-oriented. It aims to be as declarative as possible
 ## Example
 ```ts
 import { CommandoMessage } from "discord.js-commando";
-import { DPlugin, DPluginLoaded, DPluginUnloaded, DCommandReplied, DCommandCompleted, DCommandDenied, DCommandGroup, BaseDPlugin, DCommandInfo } from "discord-botkit";
+import { setup, DPlugin, DPluginLoaded, DPluginUnloaded, DCommandReplied, DCommandCompleted, DCommandDenied, DCommandGroup, BaseDPlugin, DCommandInfo } from "discord-botkit";
 
 @DPlugin("ping")
 @DCommandGroup("ping")
@@ -51,10 +51,41 @@ export class PingPlugin extends BaseDPlugin {
 
 @DCommandGroup("ping-no-plugin")
 export class PingCommandGroup {
-    @DCommand("ping", "pings hehee")
+    @DCommand("ping2", "pings hehee")
     async ping(message: CommandoMessage) {
         // its nice to nest into a plugin because you get persistence. if you dont need it, use command groups
         await message.reply(`Ping...`);
     }
 }
+
+// zeroconf - expects you to provide the required dotenv variables
+setup({
+    dotenv: true,
+    plugins: [new PingPlugin],
+    commands: [new PingCommandGroup]
+})
+
+// inline
+setup({
+    discord: {
+        // DISCORD_TOKEN
+        token: "chicken",
+        // DISCORD_{discord.js config key}
+    },
+    database: {
+        // DB_TYPE
+        type: "postgres",
+        // DB_DATABASE
+        database: "my-bot-db",
+        // ...more orm options
+        // DB_{typeorm config key}
+    },
+    plugins: [new PingPlugin],
+    commands: [new PingCommandGroup]
+})
+
+// dont want/have redis?
+setup({
+    redis: false
+})
 ```
